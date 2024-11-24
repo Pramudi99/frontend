@@ -1,6 +1,6 @@
 import React from 'react'
 import VerifyOtp from '../../components/VerifyOtp/VerifyOtp'
-import "../LoginPage/PageLayout.css"
+import "../LoginPage/Layout.css"
 import girlImage from '../../assets/images/girl-image.png'
 
 

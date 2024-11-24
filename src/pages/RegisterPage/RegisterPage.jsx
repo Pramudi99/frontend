@@ -1,7 +1,7 @@
 import React from "react"
 import RegisterForm from "../../components/RegisterForm/RegisterForm"
 import imageGirl from "../../assets/images/image-girl.png"
-import "../LoginPage/PageLayout.css"
+import "../LoginPage/Layout.css"
 
 
 function RegisterPage() {

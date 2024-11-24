@@ -1,7 +1,7 @@
 import React from "react"
 import ForgotPassword from "../../components/ForgotPassword/ForgotPassword"
 import shoppingGirl from '../../assets/images/shopping-girl.png'
-import "../LoginPage/PageLayout.css"
+import "../LoginPage/Layout.css"
 
 
 function ForgotPasswordPage() {

@@ -1,7 +1,7 @@
 import React from "react";
 import LoginForm from "../../components/LoginForm/LoginForm";
 import fashionGirlPreview from "../../assets/images/fashion-girl-preview.png"
-import './PageLayout.css'
+import './Layout.css'
 
 function LoginPage() {
   return (

@@ -1,0 +1,64 @@
+import React from 'react'
+import TextField from '@mui/material/TextField';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import './LoginForm.css'
+
+
+function LoginForm() {
+
+  return (
+    <div>
+      <div className="top">
+        <ArrowBackIosIcon className="back-icon" style={{ fontSize: '18px' }} />
+        <p className='back-text'>Go Back</p>
+      </div>
+
+      <div className="login-container">
+        <h1>Welcome</h1>
+        <p>Please login here</p>
+
+        <div className="login-box">
+          <label htmlFor="email-input">Email:</label>
+          <TextField
+            id="email-input"
+            type="email"
+            fullWidth
+            className="custom-textfield"
+            style={{
+              marginBottom: '15px'
+            }}
+          />
+          <label htmlFor="password-input">Password:</label>
+          <TextField
+            id="password-input"
+            type="password"
+            fullWidth
+            className="custom-textfield"
+          />
+
+          <div className="options">
+            <label>
+              <input type="checkbox" />
+              Remember Me
+            </label>
+            <a href="#" className="forgot-password">Forgot Password?</a>
+          </div>
+
+          <button
+            className="custom-button"
+            fullWidth
+          >
+            Login
+          </button>
+
+          <div className='signup'>
+            <p>Don't you have an account ? <a href="#" className="signup-link">Signup</a></p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  )
+}
+
+export default LoginForm

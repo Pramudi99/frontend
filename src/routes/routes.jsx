@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom'
 import RegisterPage from '../pages/RegisterPage/RegisterPage'
 import ForgotPasswordPage from '../pages/ForgotPasswordPage/ForgotPasswordPage'
 import VerifyOtpPage from '../pages/VerifyOtpPage/VerifyOtpPage'
+import ResetPasswordPage from '../pages/ResetPasswordPage/ResetPasswordPage'
 
 
 function routes() {
@@ -14,6 +15,7 @@ function routes() {
         <Route path="/register" element={<RegisterPage/>}/>
         <Route path="/passwordchange" element={<ForgotPasswordPage/>}/>
         <Route path="/verifyOtp" element={<VerifyOtpPage />}/>
+        <Route path="/passwordreset" element={<ResetPasswordPage />}/>
       </Routes>
     </div>
   )

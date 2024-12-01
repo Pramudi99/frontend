@@ -1,10 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import './LoginForm.css'
 
 
 function LoginForm() {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => {
+    setShowPassword((prev) => !prev);
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   return (
     <div>
@@ -31,9 +44,23 @@ function LoginForm() {
           <label htmlFor="password-input">Password:</label>
           <TextField
             id="password-input"
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             fullWidth
             className="custom-textfield"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
 
           <div className="options">
@@ -55,7 +82,6 @@ function LoginForm() {
             <p>Don't you have an account ? <a href="#" className="signup-link">Signup</a></p>
           </div>
         </div>
-
       </div>
     </div>
   )

@@ -1,39 +1,22 @@
-import React, { useState } from 'react';
-import { Box, Card, Checkbox, Grid, Rating, Typography,Dialog, DialogTitle,  DialogContent,IconButton, Button } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import React, { useState, useEffect } from 'react';
+import { Box, Card, Checkbox, Grid, Rating, Typography, Slider } from '@mui/material';
 import MenuAppBar from './Navbar';
+import { useNavigate } from 'react-router-dom';
+
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 export default function Search() {
-  const [open, setOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
-  const [showPriceFilters, setShowPriceFilters] = useState(false);
-  const [showTypeFilters, setShowTypeFilters] = useState(false);
-  const [showLocationFilters, setShowLocationFilters] = useState(false);
-  const [showColorFilters, setShowColorFilters] = useState(false);
-
-  const togglePriceFilters = () => {
-    setShowPriceFilters((prev) => !prev);
-  };
-  const toggleTypeFilters = () => {
-    setShowTypeFilters((prev) => !prev);
-  };
-  const toggleLocationFilters = () => {
-    setShowLocationFilters((prev) => !prev);
-  };
-  const toggleColorFilters = () => {
-    setShowColorFilters((prev) => !prev);
-  };
-
+  const navigate = useNavigate(); // Hook for navigation
+  const [visibleItems, setVisibleItems] = useState([]); // Items to be displayed
+  const [currentIndex, setCurrentIndex] = useState(0); // Current index for loading
+  const [value, setValue] = useState([20, 37]); 
   const [data] = useState([
     {
       id: 1,
       imageUrl:
         'https://i.pinimg.com/736x/af/36/78/af36783a464d3b5163053258a042e625.jpg',
       name: 'Women Fit and Flare Brown Dress',
-      price:'$200',
+      price:'$10',
       size:'medium',
       description:
         'This is the description of Bag item 1. It could be longer or shorternhgggggggggggggggggggvbfddd.',
@@ -45,7 +28,7 @@ export default function Search() {
       imageUrl:
         'https://rukminim2.flixcart.com/image/612/612/xif0q/dress/k/a/k/l-vna1003027-vishudh-original-imagyxpgq9ywyhmu.jpeg?q=70',
       name: 'Women Fit and Flare Brown Dress',
-      price:'$200',
+      price:'$5',
       size:'medium',
       description:
         'This is the description of Bag item 1. It could be longer or shorternhgggggggggggggggggggvbfddd.',
@@ -57,7 +40,7 @@ export default function Search() {
       imageUrl:
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZi6Ktng9k0ynGp3LIHdqTpsq8yvIVUjsgWQ&s',
       name: 'Women Fit and Flare Brown Dress',
-      price:'$200',
+      price:'$7',
       size:'medium',
       description:
         'This is the description of Bag item 1. It could be longer or shorternhgggggggggggggggggggvbfddd.',
@@ -69,7 +52,7 @@ export default function Search() {
       imageUrl:
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZi6Ktng9k0ynGp3LIHdqTpsq8yvIVUjsgWQ&s',
       name: 'Women Fit and Flare Brown Dress',
-      price:'$200',
+      price:'$15',
       size:'medium',
       description:
         'This is the description of Bag item 1. It could be longer or shorternhgggggggggggggggggggvbfddd.',
@@ -105,7 +88,7 @@ export default function Search() {
       imageUrl:
         'https://i.pinimg.com/236x/11/d9/35/11d935546c55a277084a3f3264d6aa56.jpg',
       name: 'Women Fit and Flare Brown Dress',
-      price:'$200',
+      price:'$20',
       size:'m',
       description:
         'This is the description of Bag item 2. It provides more details about the product.',
@@ -117,7 +100,7 @@ export default function Search() {
       imageUrl:
         'https://i.pinimg.com/736x/2d/dd/be/2dddbe76ff01102f09975a62dcdfa834.jpg',
       name: 'Bag Item 2',
-      price:'$200',
+      price:'$500',
       size:'m',
       description:
         'This is the description of Bag item 2. It provides more details about the product.',
@@ -138,276 +121,164 @@ export default function Search() {
     },  
     
   ]);
-  const handleOpen = (item) => {
-    setSelectedItem(item);
-    setOpen(true);
+
+  useEffect(() => {
+    if (currentIndex < data.length) {
+      const timer = setTimeout(() => {
+        setVisibleItems((prev) => [...prev, data[currentIndex]]);
+        setCurrentIndex(currentIndex + 1);
+      }, 500); // Delay of 500ms for each item to appear
+      return () => clearTimeout(timer); // Cleanup timer
+    }
+  }, [currentIndex, data]);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue); // Handle price range slider value change
   };
 
-  const handleClose = () => {
-    setOpen(false);
-    setSelectedItem(null);
+  const handleCardClick = (id) => {
+    navigate(`/item/${id}`); // Navigate to the details page with the item's ID
   };
+
   return (
     <div>
-      <MenuAppBar/>
-      <Grid container spacing={10}>
+      <MenuAppBar />
+    
+      <Grid container spacing={2}>
         {/* Filter Section */}
-        <Grid item xs={3}>
+        <Grid item xs={4}>
           <Card
-           sx={{
-            width: '35vh',
-            height: '60%',
-            padding: '10px',
-            marginTop: '40px',
-            marginLeft: '60px',      
-            boxShadow: '0 8px 12px rgba(0, 0, 0, 0.3)' 
-          
-          }}
+            sx={{
+              width: '45vh',
+              height: '80%',
+              padding: '10px',
+              marginTop: '105px',
+              marginLeft: '60px',
+              boxShadow: '0 8px 12px rgba(0, 0, 0, 0.3)',
+              position: 'fixed',
+            }}
           >
-            <Typography sx={{ fontWeight: 'bold',fontSize:'20px' }}>Filters</Typography> <br></br>                              
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-           cursor: 'pointer',
-          justifyContent: 'space-between',
-        }}
-        onClick={togglePriceFilters}
-      >
-        <Typography >Price</Typography>
-        <KeyboardArrowDownIcon
-          sx={{
-            transform: showPriceFilters ? 'rotate(180deg)' : 'rotate(0deg)',
-            transition: 'transform 0.3s ease',
-          }}
-        />
-      </Box>
-          
-          {showPriceFilters && (
-            <Box sx={{ marginLeft: '20px', marginTop: '10px' }}>
-              <Checkbox {...label} />
-             $50<br />
-              <Checkbox {...label} />
-             $100<br />
-              <Checkbox {...label} />
-              $200<br />
-              <Checkbox {...label} />
-              $200+
-            </Box>
-          )}  
-           <hr></hr>   
-          <br></br>
-          
-          <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          cursor: 'pointer',
-          justifyContent: 'space-between',
-        }}
-        onClick={toggleTypeFilters}
-      >
-          
-        <Typography >Type</Typography>
-        <KeyboardArrowDownIcon
-          sx={{
-            transform: showTypeFilters ? 'rotate(180deg)' : 'rotate(0deg)',
-            transition: 'transform 0.3s ease',
-          }}
-        />
-      </Box>
-          
-          {showTypeFilters && (
-            <Box sx={{ marginLeft: '20px', marginTop: '10px' }}>
-              <Checkbox {...label} />
-             Shirt<br />
-              <Checkbox {...label} />
-              Frocks<br />
-              <Checkbox {...label} />
-             Trousers<br />
-              <Checkbox {...label} />
-            Blouse
-            </Box>
-          )}
-          <hr></hr>  
-          <br></br>
-          
-          <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          cursor: 'pointer',
-          justifyContent: 'space-between',
-        }}
-        onClick={toggleLocationFilters}
-      >
-        <Typography > Location</Typography>
-        <KeyboardArrowDownIcon
-          sx={{
-            transform: showLocationFilters ? 'rotate(180deg)' : 'rotate(0deg)',
-            transition: 'transform 0.3s ease',
-          }}
-        />
-      </Box>
-          
-          {showLocationFilters && (
-            <Box sx={{ marginLeft: '20px', marginTop: '10px' }}>
-              <Checkbox {...label} />
-             XdS<br />
-              <Checkbox {...label} />
-              Sk<br />
-              <Checkbox {...label} />
-             Md<br />
-              <Checkbox {...label} />
-            Lm
-            </Box>
-          )}
-          <hr></hr>  
-          <br></br>
-        
-          <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          cursor: 'pointer',
-          justifyContent: 'space-between',
-        }}
-        onClick={toggleColorFilters}
-      >
-        <Typography >Color</Typography>
-        <KeyboardArrowDownIcon
-          sx={{
-            transform: showColorFilters ? 'rotate(180deg)' : 'rotate(0deg)',
-            transition: 'transform 0.3s ease',
-          }}
-        />
-      </Box>
-          
-          {showColorFilters && (
-            <Box sx={{ marginLeft: '20px', marginTop: '10px' }}>
-              <Checkbox {...label} />
-             Red<br />
-              <Checkbox {...label} />
-              white<br />
-              <Checkbox {...label} />
-             Black<br />
-              <Checkbox {...label} />
-            Green
-            </Box>
-          )} 
-               <hr></hr>    
+            <Typography sx={{ fontWeight: 'bold', fontSize: '18px' , marginTop: '20px',}}>Price Range</Typography><br></br>
+            <Box sx={{ width: 300 }}>
+              <Slider
+                getAriaLabel={() => 'Price range'}
+                value={value}
+                onChange={handleChange}
+                valueLabelDisplay="auto"
+                getAriaValueText={(value) => `${value}°C`}
+              />
+            </Box><br></br>
+            <Typography sx={{ fontWeight: 'bold', fontSize: '18px' }}>Category</Typography><br></br>
+            <Checkbox {...label} /> All
+            <br />
+            <Checkbox {...label} /> Price
+            <br />
+            <Checkbox {...label} /> Type
+            <br />
+            <Checkbox {...label} /> Size
+            <br />
+            <Checkbox {...label} /> Location
+            <br />
+            <Checkbox {...label} /> User Ratings
+            <br />           
           </Card>
-         
         </Grid>
-
-        {/* Results Section */}
-        <Grid item xs={9}>
-        <Grid container spacing={2}>
-  {data.map((item) => (
-    <Grid item xs={4} key={item.id}>
-      <Card
-        sx={{
-          width: '43vh',
-          height: '70vh',
-          padding: '10px',
-          marginTop: '40px',          
-          boxSizing: 'border-box',      
-         
-          
-        }}
-        onClick={() => handleOpen(item)}
-      >
-        <Box
-          component="img"
-          src={item.imageUrl}
-          alt="Sample Image"
-          sx={{width: '100%',
-            height: '75%', border: '1px solid grey' }}
-        />
-        <Typography sx={{ fontWeight: 'bold', marginTop: '10px' }}>
-          {item.name}
-        </Typography>    
-        <Typography sx={{ marginTop: '10px' }}>Size {item.size}</Typography>    
-        <Typography sx={{ marginTop: '10px' }}>{item.price}</Typography>
-      </Card>
-    </Grid>
-  ))}
-</Grid>
-        </Grid>        
+       
+        {/* Items Section */}
+        <Grid container spacing={2} sx={{ marginTop: '60px' ,marginLeft:'30%'}}>
+      
+          {visibleItems.map((item, index) => (
+            <Grid
+              item
+              xs={12}
+              key={item.id}
+              sx={{
+                opacity: 0,
+                animation: `${
+                  index % 3 === 0
+                    ? 'fade-in-scale'
+                    : index % 3 === 1
+                    ? 'slide-in'
+                    : 'zoom-in'
+                } 2.2s ease-in ${index * 0.3}s forwards`,
+              }}
+            >
+              <Card
+                onClick={() => handleCardClick(item.id)}
+                sx={{
+                  width: '95%',
+                  height: '23vh',
+                  padding: '5px',
+                  marginTop: '40px',
+                  cursor: 'pointer',
+                }}
+              >
+                <Grid container spacing={2}>
+                  <Grid item xs={4}>
+                    <Box
+                      component="img"
+                      src={item.imageUrl}
+                      alt={item.name}
+                      sx={{
+                        width: '100%',
+                        height: '30vh',
+                        objectFit: 'cover',
+                        borderRadius: '5px',
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={8}>
+                    <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                      {item.name}
+                    </Typography>
+                    <Rating value={item.rating} precision={0.5} readOnly sx={{ fontSize: '1rem' }} />
+                    <Typography sx={{ color: 'gray', marginTop: '5px' }}>{item.description}</Typography>
+                    <Typography sx={{ marginTop: '10px', fontWeight: 'bold' }}>{item.price}</Typography>
+                  </Grid>
+                </Grid>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
       </Grid>
-      {/* Popup Dialog */}
-      <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
-        <DialogTitle sx={{fontWeight:'bold'}}>
-          {selectedItem?.name}
-          <IconButton
-            aria-label="close"
-            onClick={handleClose}
-            sx={{
-              position: 'absolute',
-              right: 8,
-              top: 8,
-              color: (theme) => theme.palette.grey[500],
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
-        </DialogTitle>
-        <DialogContent>
-          <Box
-            component="img"
-            src={selectedItem?.imageUrl}
-            alt={selectedItem?.name}
-            sx={{
-              width: '50%',
-              height: '50%',
-              objectFit: 'cover',
-              borderRadius: '8px',
-              marginBottom: '20px',
-              display: 'block',
-              marginLeft: 'auto',
-              marginRight: 'auto',
-            }}
-          />
-          <Typography>{selectedItem?.description}</Typography>
-          <Rating
-            value={selectedItem?.rating}
-            precision={0.5}
-            readOnly
-            sx={{ fontSize: '1.5rem', marginTop: '10px' }}
-          />
-          <Typography>Size : {selectedItem?.size}</Typography>
-          <Typography sx={{fontWeight:'bold'}}> {selectedItem?.price}</Typography>
-          <Typography> {selectedItem?.location}</Typography>
-          
-          <br></br> 
-         <Button
-      sx={{
-        backgroundColor: 'Black',
-        color: 'white',       
-        width:'45%',       
-        padding:'10px',  
-        fontWeight: 'bold',       
-      }}
-    >
-      <ShoppingCartIcon></ShoppingCartIcon>
-      ADD TO CART
-    </Button>
 
-    <Button
-      sx={{
-        backgroundColor: 'black',
-        color: 'white', 
-        marginLeft:'10px',
-        padding:'10px',             
-        width:'45%',
-        fontWeight: 'bold',       
-      }}
-    >
-      <ShoppingCartIcon></ShoppingCartIcon>
-      BYE NOW
-    </Button>
-        </DialogContent>
-      </Dialog>
+      {/* CSS for fade-in animation */}
+      <style>
+  {`
+    @keyframes fade-in-scale {
+      0% {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes slide-in {
+      0% {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes zoom-in {
+      0% {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  `}
+</style>
     </div>
   );
 }

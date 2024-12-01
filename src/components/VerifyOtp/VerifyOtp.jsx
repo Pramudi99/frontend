@@ -22,7 +22,6 @@ function ResetPassword() {
                         type="text"
                         fullWidth
                         className="custom-textfield"
-                        inputProps={{ style: { textAlign: 'center' } }} 
                     />
 
                     <button

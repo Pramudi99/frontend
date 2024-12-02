@@ -10,3 +10,7 @@ export const setSession = (accessToken) => {
         delete axiosInstance.defaults.headers.common.Authorization;
     }
 };
+
+export const getSession = () => {
+    return localStorage.getItem("accessToken");
+};

@@ -1,0 +1,75 @@
+.login-container {
+    width: 21.5rem; 
+    padding-right: 2rem; 
+    padding-top: 0.5rem; 
+    padding-bottom: 2.5rem;  
+    border: 0px solid #ccccccc1;
+    width: 21.5rem; 
+    padding-right: 2rem; 
+ } 
+
+  .custom-textfield .MuiInputBase-input {
+   height: 40px; 
+   padding: 10px; 
+   box-sizing: border-box; 
+ }
+
+ .options {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   margin-top: 10px;
+   font-size: 0.9rem;
+ }
+
+ .options input[type="checkbox"] {
+   accent-color: black; 
+ }
+ 
+ .forgot-password {
+   color: #232425;
+   text-decoration: none;
+ }
+ 
+ .forgot-password:hover {
+   font-weight: 600;
+ }
+
+ .custom-button {
+   margin-top: 25px; 
+   width: 100%; 
+   height: 40px; 
+   background-color: #000000; 
+   color: #ffffff;
+   font-size: "1.5rem";
+   border: none; 
+   border-radius: 0.3rem; 
+   cursor: pointer; 
+ }
+
+ .signup {
+  display: flex;
+ }
+
+ .signup-link {
+  color: #232425;
+  text-decoration: none; 
+ }
+
+ .signup-link:hover {
+  font-weight: 700;
+ }
+
+.top {
+  display: flex;
+  cursor: pointer;
+}
+
+.back-icon {
+  margin-top: 12px;
+}
+
+.back-text {
+  margin-top: 9px;
+  margin-left: 10px;
+}

@@ -139,54 +139,51 @@ export default function PrimarySearchAppBar() {
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{backgroundColor:'black', height: '75px', }}>
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-           </IconButton>
-         
-          <Search>
-            <SearchIconWrapper >
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
-          <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton
-              size="large"
-              
-              color="inherit"
-            >
-              <Badge  color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-          </Box>
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-               </Box>
-        </Toolbar>
-      </AppBar>
+    <Box sx={{ flexGrow: 1 ,}} >
+      <AppBar 
+        position="fixed" 
+      sx={{
+    backgroundColor: 'black',
+    height: '75px',
+    zIndex: (theme) => theme.zIndex.drawer + 1, 
+  }}
+>
+  <Toolbar>
+    <IconButton
+      size="large"
+      edge="start"
+      color="inherit"
+      aria-label="open drawer"
+      sx={{ mr: 2 }}
+    >
+    </IconButton>
+   
+    <Box sx={{ flexGrow: 1 }} />
+    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+      <IconButton
+        size="large"
+        color="inherit"
+      >
+        <Badge color="error">
+          <NotificationsIcon />
+        </Badge>
+      </IconButton>
+      <IconButton
+        size="large"
+        edge="end"
+        aria-label="account of current user"
+        aria-controls={menuId}
+        aria-haspopup="true"
+        onClick={handleProfileMenuOpen}
+        color="inherit"
+      >
+        <AccountCircle />
+      </IconButton>
+    </Box>
+    <Box sx={{ display: { xs: 'flex', md: 'none' } }} />
+  </Toolbar>
+</AppBar>
+
       {renderMobileMenu}
       {renderMenu}
     </Box>

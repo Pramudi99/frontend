@@ -1,39 +1,33 @@
 import React, { useState } from 'react';
-import { Box, Card, Checkbox, Grid, Rating, Typography,Dialog, DialogTitle,  DialogContent,IconButton, Button } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { Box, Card, Checkbox, Grid, Rating, Typography, Slider, TextField, Button } from '@mui/material';
 import MenuAppBar from './Navbar';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import { useNavigate } from 'react-router-dom';
+import SearchIcon from '@mui/icons-material/Search';
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 export default function Search() {
-  const [open, setOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
-  const [showPriceFilters, setShowPriceFilters] = useState(false);
-  const [showTypeFilters, setShowTypeFilters] = useState(false);
-  const [showLocationFilters, setShowLocationFilters] = useState(false);
-  const [showColorFilters, setShowColorFilters] = useState(false);
-
-  const togglePriceFilters = () => {
-    setShowPriceFilters((prev) => !prev);
-  };
-  const toggleTypeFilters = () => {
-    setShowTypeFilters((prev) => !prev);
-  };
-  const toggleLocationFilters = () => {
-    setShowLocationFilters((prev) => !prev);
-  };
-  const toggleColorFilters = () => {
-    setShowColorFilters((prev) => !prev);
-  };
-
+  const navigate = useNavigate(); 
+  const [value, setValue] = useState([3000, 8000]); // Initial range values
+  const sizes = ["S", "M", "L", "XL","XXL"];
+  const colors = [
+    { code: "#FF0000" },
+    {  code: "#0000FF" },
+    {  code: "#00FF00" },
+    {  code: "#FFFF00" },
+    {code:"#e29216"},
+    {code:"#d916e2 "},
+    {code:"#a7e216 "},
+    {code:"#16e2df  "},
+  ];
+  
   const [data] = useState([
     {
       id: 1,
       imageUrl:
         'https://i.pinimg.com/736x/af/36/78/af36783a464d3b5163053258a042e625.jpg',
       name: 'Women Fit and Flare Brown Dress',
-      price:'$200',
+      price:'$10',
       size:'medium',
       description:
         'This is the description of Bag item 1. It could be longer or shorternhgggggggggggggggggggvbfddd.',
@@ -45,7 +39,7 @@ export default function Search() {
       imageUrl:
         'https://rukminim2.flixcart.com/image/612/612/xif0q/dress/k/a/k/l-vna1003027-vishudh-original-imagyxpgq9ywyhmu.jpeg?q=70',
       name: 'Women Fit and Flare Brown Dress',
-      price:'$200',
+      price:'$5',
       size:'medium',
       description:
         'This is the description of Bag item 1. It could be longer or shorternhgggggggggggggggggggvbfddd.',
@@ -57,7 +51,7 @@ export default function Search() {
       imageUrl:
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZi6Ktng9k0ynGp3LIHdqTpsq8yvIVUjsgWQ&s',
       name: 'Women Fit and Flare Brown Dress',
-      price:'$200',
+      price:'$7',
       size:'medium',
       description:
         'This is the description of Bag item 1. It could be longer or shorternhgggggggggggggggggggvbfddd.',
@@ -69,7 +63,7 @@ export default function Search() {
       imageUrl:
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZi6Ktng9k0ynGp3LIHdqTpsq8yvIVUjsgWQ&s',
       name: 'Women Fit and Flare Brown Dress',
-      price:'$200',
+      price:'$15',
       size:'medium',
       description:
         'This is the description of Bag item 1. It could be longer or shorternhgggggggggggggggggggvbfddd.',
@@ -79,7 +73,7 @@ export default function Search() {
     {
       id: 4,
       imageUrl:
-        'https://i.pinimg.com/736x/36/c1/67/36c1670a949b15963dfeb70f6d0df481.jpg',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkFh7oAqTE9kj9nBRyUoQKAFoyNXt3hsoWYg&s',
       name: 'Women Fit and Flare Brown Dress',
       price:'$90',
       size:'LArge',
@@ -105,7 +99,7 @@ export default function Search() {
       imageUrl:
         'https://i.pinimg.com/236x/11/d9/35/11d935546c55a277084a3f3264d6aa56.jpg',
       name: 'Women Fit and Flare Brown Dress',
-      price:'$200',
+      price:'$20',
       size:'m',
       description:
         'This is the description of Bag item 2. It provides more details about the product.',
@@ -117,7 +111,7 @@ export default function Search() {
       imageUrl:
         'https://i.pinimg.com/736x/2d/dd/be/2dddbe76ff01102f09975a62dcdfa834.jpg',
       name: 'Bag Item 2',
-      price:'$200',
+      price:'$500',
       size:'m',
       description:
         'This is the description of Bag item 2. It provides more details about the product.',
@@ -136,278 +130,415 @@ export default function Search() {
       rating: 4,
       location:'colombo'
     },  
-    
   ]);
-  const handleOpen = (item) => {
-    setSelectedItem(item);
-    setOpen(true);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-    setSelectedItem(null);
+  const handleCardClick = (id) => {
+    navigate(`/item/${id}`);
   };
+ 
+
   return (
     <div>
-      <MenuAppBar/>
-      <Grid container spacing={10}>
+      <MenuAppBar />
+    
+      <Grid container spacing={1}>
         {/* Filter Section */}
-        <Grid item xs={3}>
+        <Grid item xs={4}>
           <Card
-           sx={{
-            width: '35vh',
-            height: '60%',
-            padding: '10px',
-            marginTop: '40px',
-            marginLeft: '60px',      
-            boxShadow: '0 8px 12px rgba(0, 0, 0, 0.3)' 
-          
-          }}
+            sx={{
+              width: '45vh',
+              height: '65%',
+              padding: '10px',
+              marginTop: '105px',
+              marginLeft: '60px',
+              boxShadow: '0 4px 4px rgba(0, 0, 0, 0.2)',              
+            }}
+          > 
+           < Box sx={{ padding: "13px" }}>
+          <Typography variant="h7" sx={{fontWeight: 'bold',}}>
+            PRICE RANGE
+          </Typography>
+          <br></br><br></br>
+      
+      <Slider
+        getAriaLabel={() => "Price range"}
+        value={value}
+        onChange={handleChange}
+       getAriaValueText={(val) => `${val}`}
+        min={800} // Minimum value
+        max={10000} // Maximum value
+        sx={{
+          color: "black", 
+        }}
+      />      
+    </Box>
+          <Box sx={{ display: "flex", marginTop: "16px" }}>
+            <Box
+              sx={{
+                width: "90px",
+                height: "40px",
+                padding:'5px',                
+                textAlign: "center",
+                lineHeight: "30px",                
+                borderRadius: "4px",
+                marginLeft:'20px',
+                border: "2px solid #b2babb",
+              }}
+            >
+              Rs. {value[0]}
+            </Box>
+            <Typography sx={{ marginLeft: "40px",marginTop:'10px'}}>to</Typography>
+            <Box
+              sx={{
+                width: "90px",
+                height:"40px",
+                padding:'5px', 
+                marginLeft:'50px',
+                textAlign: "center",
+                lineHeight: "30px",
+                borderRadius: "4px",
+                border: "2px solid #b2babb",
+              }}
+            >
+             Rs.  {value[1]}
+            </Box>
+          </Box>
+          <br></br>
+          <Button
+            sx={{
+              backgroundColor: 'black',
+              color: 'white',
+              padding: '10px',              
+              width: '300px',
+              fontSize: '15px',
+              fontWeight:'bold',
+              marginLeft:'20px',
+              border: '1px solid black',
+              transition: 'all 0.3s ease-in-out',
+              '&:hover': {
+                backgroundColor: 'white',
+                color: 'black',
+                transform: 'scale(1.05)',
+                boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3)',
+                borderColor: 'black',
+              },
+            }}
           >
-            <Typography sx={{ fontWeight: 'bold',fontSize:'20px' }}>Filters</Typography> <br></br>                              
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-           cursor: 'pointer',
-          justifyContent: 'space-between',
-        }}
-        onClick={togglePriceFilters}
-      >
-        <Typography >Price</Typography>
-        <KeyboardArrowDownIcon
-          sx={{
-            transform: showPriceFilters ? 'rotate(180deg)' : 'rotate(0deg)',
-            transition: 'transform 0.3s ease',
-          }}
-        />
+           APPLY
+          </Button>
+        <br></br><br></br>
+        <Box sx={{ padding: "16px" }}>
+      <Typography variant="h7" sx={{fontWeight: 'bold',}}>
+        CATEGORIES
+      </Typography>  
+      <hr style={{ margin: "8px 0" }} />
+      <br></br>  
+            <Checkbox {...label} /> All           
       </Box>
-          
-          {showPriceFilters && (
-            <Box sx={{ marginLeft: '20px', marginTop: '10px' }}>
-              <Checkbox {...label} />
-             $50<br />
-              <Checkbox {...label} />
-             $100<br />
-              <Checkbox {...label} />
-              $200<br />
-              <Checkbox {...label} />
-              $200+
+           <Box sx={{ padding: "16px" }}>
+            <Typography   variant="h7" sx={{ fontWeight: 'bold',}}>TYPE</Typography>
+            <hr style={{ margin: "8px 0" }} />
+            <Checkbox {...label} /> Frocks<br></br>
+            <Checkbox {...label} />Trousers<br></br>
+            <Checkbox {...label} />Blouse<br></br>
+            <Checkbox {...label} />Sarees<br></br>
+            <Checkbox {...label} /> shirts<br></br>
+            <Checkbox {...label} />Skirts<br></br>
+            <Checkbox {...label} />Baby clothes<br></br>
+            
             </Box>
-          )}  
-           <hr></hr>   
-          <br></br>
-          
-          <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          cursor: 'pointer',
-          justifyContent: 'space-between',
-        }}
-        onClick={toggleTypeFilters}
-      >
-          
-        <Typography >Type</Typography>
-        <KeyboardArrowDownIcon
-          sx={{
-            transform: showTypeFilters ? 'rotate(180deg)' : 'rotate(0deg)',
-            transition: 'transform 0.3s ease',
-          }}
-        />
-      </Box>
-          
-          {showTypeFilters && (
-            <Box sx={{ marginLeft: '20px', marginTop: '10px' }}>
-              <Checkbox {...label} />
-             Shirt<br />
-              <Checkbox {...label} />
-              Frocks<br />
-              <Checkbox {...label} />
-             Trousers<br />
-              <Checkbox {...label} />
-            Blouse
+            
+            <Box sx={{ padding: "16px" }}>
+      <Typography variant="h7" sx={{fontWeight: 'bold',}}>SIZE</Typography>
+      <hr style={{ margin: "8px 0" }} />
+      <Grid container spacing={2}>
+        {sizes.map((size, index) => (
+          <Grid item xs={6} sm={3} key={index}>
+            <Box
+              sx={{
+                border: "1px solid #ccc",
+                width: '25px',height: '25px',
+                borderRadius: "4px",
+                textAlign: "center",
+                borderColor: '#afafab',
+                padding: "10px",
+                cursor: "pointer",
+                '&:hover': { backgroundColor: "#f0f0f0" }
+              }}
+            >
+              {size}
             </Box>
-          )}
-          <hr></hr>  
-          <br></br>
-          
-          <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          cursor: 'pointer',
-          justifyContent: 'space-between',
-        }}
-        onClick={toggleLocationFilters}
-      >
-        <Typography > Location</Typography>
-        <KeyboardArrowDownIcon
-          sx={{
-            transform: showLocationFilters ? 'rotate(180deg)' : 'rotate(0deg)',
-            transition: 'transform 0.3s ease',
-          }}
-        />
-      </Box>
-          
-          {showLocationFilters && (
-            <Box sx={{ marginLeft: '20px', marginTop: '10px' }}>
-              <Checkbox {...label} />
-             XdS<br />
-              <Checkbox {...label} />
-              Sk<br />
-              <Checkbox {...label} />
-             Md<br />
-              <Checkbox {...label} />
-            Lm
-            </Box>
-          )}
-          <hr></hr>  
-          <br></br>
-        
-          <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          cursor: 'pointer',
-          justifyContent: 'space-between',
-        }}
-        onClick={toggleColorFilters}
-      >
-        <Typography >Color</Typography>
-        <KeyboardArrowDownIcon
-          sx={{
-            transform: showColorFilters ? 'rotate(180deg)' : 'rotate(0deg)',
-            transition: 'transform 0.3s ease',
-          }}
-        />
-      </Box>
-          
-          {showColorFilters && (
-            <Box sx={{ marginLeft: '20px', marginTop: '10px' }}>
-              <Checkbox {...label} />
-             Red<br />
-              <Checkbox {...label} />
-              white<br />
-              <Checkbox {...label} />
-             Black<br />
-              <Checkbox {...label} />
-            Green
-            </Box>
-          )} 
-               <hr></hr>    
-          </Card>
-         
-        </Grid>
-
-        {/* Results Section */}
-        <Grid item xs={9}>
-        <Grid container spacing={2}>
-  {data.map((item) => (
-    <Grid item xs={4} key={item.id}>
-      <Card
-        sx={{
-          width: '43vh',
-          height: '70vh',
-          padding: '10px',
-          marginTop: '40px',          
-          boxSizing: 'border-box',      
-         
-          
-        }}
-        onClick={() => handleOpen(item)}
-      >
-        <Box
-          component="img"
-          src={item.imageUrl}
-          alt="Sample Image"
-          sx={{width: '100%',
-            height: '75%', border: '1px solid grey' }}
-        />
-        <Typography sx={{ fontWeight: 'bold', marginTop: '10px' }}>
-          {item.name}
-        </Typography>    
-        <Typography sx={{ marginTop: '10px' }}>Size {item.size}</Typography>    
-        <Typography sx={{ marginTop: '10px' }}>{item.price}</Typography>
-      </Card>
-    </Grid>
-  ))}
-</Grid>
-        </Grid>        
+          </Grid>
+        ))}
       </Grid>
-      {/* Popup Dialog */}
-      <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
-        <DialogTitle sx={{fontWeight:'bold'}}>
-          {selectedItem?.name}
-          <IconButton
-            aria-label="close"
-            onClick={handleClose}
-            sx={{
-              position: 'absolute',
-              right: 8,
-              top: 8,
-              color: (theme) => theme.palette.grey[500],
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
-        </DialogTitle>
-        <DialogContent>
-          <Box
-            component="img"
-            src={selectedItem?.imageUrl}
-            alt={selectedItem?.name}
-            sx={{
-              width: '50%',
-              height: '50%',
-              objectFit: 'cover',
-              borderRadius: '8px',
-              marginBottom: '20px',
-              display: 'block',
-              marginLeft: 'auto',
-              marginRight: 'auto',
-            }}
-          />
-          <Typography>{selectedItem?.description}</Typography>
-          <Rating
-            value={selectedItem?.rating}
-            precision={0.5}
-            readOnly
-            sx={{ fontSize: '1.5rem', marginTop: '10px' }}
-          />
-          <Typography>Size : {selectedItem?.size}</Typography>
-          <Typography sx={{fontWeight:'bold'}}> {selectedItem?.price}</Typography>
-          <Typography> {selectedItem?.location}</Typography>
-          
-          <br></br> 
-         <Button
-      sx={{
-        backgroundColor: 'Black',
-        color: 'white',       
-        width:'45%',       
-        padding:'10px',  
-        fontWeight: 'bold',       
-      }}
-    >
-      <ShoppingCartIcon></ShoppingCartIcon>
-      ADD TO CART
-    </Button>
+    </Box>
+         
+            <Box sx={{ padding: "16px" }}>
+      <Typography variant="h7" sx={{fontWeight: 'bold',}}>
+        COLORS
+      </Typography>
+      <hr style={{ margin: "8px 0" }} />
+      <Grid container spacing={2}>
+        {colors.map((color, index) => (
+          <Grid item xs={3} sm={2} key={index}>
+            <Box
+              sx={{
+                width: "40px",
+                height: "40px",
+                backgroundColor: color.code,
+                borderRadius: "50%",                
+                margin: "0 auto",
+                cursor: "pointer",
+                '&:hover': { transform: "scale(1.1)" }
+              }}              
+            />
 
-    <Button
-      sx={{
-        backgroundColor: 'black',
-        color: 'white', 
-        marginLeft:'10px',
-        padding:'10px',             
-        width:'45%',
-        fontWeight: 'bold',       
-      }}
-    >
-      <ShoppingCartIcon></ShoppingCartIcon>
-      BYE NOW
-    </Button>
-        </DialogContent>
-      </Dialog>
+           </Grid>
+        ))}
+        
+      </Grid>
+    </Box>
+    <Box sx={{ padding: "16px" }}>
+      <Typography variant="h7" sx={{fontWeight: 'bold',}}>
+        LOCATION
+      </Typography>
+      <hr style={{ margin: "8px 0" }} />
+      <Checkbox {...label} /> Frocks<br></br>
+            <Checkbox {...label} />Colombo<br></br>
+            <Checkbox {...label} />Kandy<br></br>
+            <Checkbox {...label} />Jaffna<br></br>
+      </Box>           
+          </Card>
+        </Grid>
+       
+        {/* Items Section */}
+        
+          <Grid item xs={8}>
+          
+            <Card
+              sx={{
+                height: '10vh',
+                marginTop: '108px',
+                padding: '8px',                
+                display: 'flex',
+                width: '106%',
+                marginLeft:'13px',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                }}
+            >  
+              <FilterListIcon  sx={{padding:"10px", marginLeft: '1px',}}></FilterListIcon>           
+              <Typography sx={{padding:"10px", marginLeft: '1px',}}>Filter</Typography>
+              <Typography sx={{padding:"10px",marginLeft: '90px',}}>Price:Lower to high</Typography>                
+                              <TextField
+                  label="Search the store"
+                  fullWidth
+                  sx={{
+                    width: "40%",
+                    maxWidth: "700px",
+                    marginLeft: "95px",
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "52px", 
+                      position: "relative",
+                      "& fieldset": {
+                        borderRadius: "2px",
+                        borderWidth: "2px",
+                      },
+                      "&:after": {
+                        content: '""',
+                        position: "absolute",
+                        top: 0,
+                        right: 0,
+                        width: "50px", // Thickness of the colored edge
+                        height: "100%",
+                        backgroundColor: "black", // Right corner color
+                        borderRadius: "0 2px 2px 0", // Smooth corner on the right
+                      },
+                      "&:hover fieldset": {
+                        borderColor: "black",
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "black",
+                      },
+                    },
+                  }}
+                />
+
+                </Card>                                 
+            
+          
+          {data.map((item, index) => (
+            <Grid
+              item
+              xs={12}
+              key={item.id}
+              sx={{
+                padding: '10px',
+                opacity: 0,
+                animation: `${
+                  index % 3 === 0
+                    ? 'fade-in-scale'
+                    : index % 3 === 1
+                    ? 'slide-in'
+                    : 'zoom-in'
+                } 2.0s ease-in ${index * 0.3}s forwards`,
+              }}
+            >
+              <Card
+                onClick={() => handleCardClick(item.id)}
+                sx={{
+                  width: '110%',
+                  height: '27vh',
+                  padding: '5px',
+                  marginTop: '4px',
+                  cursor: 'pointer',
+                }}
+              >
+                <Grid container spacing={2}>
+                  <Grid item xs={4}>
+                    <Box
+                      component="img"
+                      src={item.imageUrl}
+                      alt={item.name}
+                      sx={{
+                        width: '100%',
+                        height: '30vh',
+                        objectFit: 'cover',
+                        borderRadius: '5px',
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={8}>
+                    <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                      {item.name}
+                    </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '4px' }}>
+                        <Rating
+                          value={item.rating}
+                          readOnly
+                          precision={0.5}
+                          sx={{ fontSize: '1rem' }}
+                        />
+                        <Typography sx={{ marginLeft: '8px', fontSize: '1rem', color: 'gray' }}>
+                          {item.rating}.0
+                        </Typography>
+                      </Box>
+                    <Typography sx={{ color: 'gray', marginTop: '5px' }}>{item.description}</Typography>
+                    <Typography sx={{ marginTop: '10px', fontWeight: 'bold' }}>{item.price}</Typography>                    
+                    <Box sx={{ border: 2, borderColor: '#afafab', borderStyle: 'solid', borderRadius: '4px', padding: '8px',display: 'inline-flex',justifyContent: 'center',
+                    alignItems: 'center',margin: '8px',  width: '25px',height: '25px' }}>
+                      <Typography>S</Typography>
+                    </Box>
+                    <Box sx={{ 
+                      border: 2, 
+                      borderColor: '#afafab', 
+                      borderStyle: 'solid', 
+                      borderRadius: '4px', 
+                      padding: '8px', 
+                      display: 'inline-flex', 
+                      justifyContent: 'center', 
+                      alignItems: 'center', 
+                      margin: '8px', 
+                      width: '25px', 
+                      height: '25px' 
+                    }}>
+                      <Typography>M</Typography>
+                    </Box>
+                    <Box sx={{ 
+                      border: 2, 
+                      borderColor: '#afafab', 
+                      borderStyle: 'solid', 
+                      borderRadius: '4px', 
+                      padding: '8px', 
+                      display: 'inline-flex', 
+                      justifyContent: 'center', 
+                      alignItems: 'center', 
+                      margin: '8px', 
+                      width: '25px', 
+                      height: '25px' 
+                    }}>
+                      <Typography>L</Typography>
+                    </Box>
+                    <Box sx={{ 
+                      border: 2, 
+                      borderColor: '#afafab', 
+                      borderStyle: 'solid', 
+                      borderRadius: '4px', 
+                      padding: '8px', 
+                      display: 'inline-flex', 
+                      justifyContent: 'center', 
+                      alignItems: 'center', 
+                      margin: '8px', 
+                      width: '25px', 
+                      height: '25px' 
+                    }}>
+                      <Typography>XL</Typography>
+                    </Box>
+                    <Box sx={{ 
+                      border: 2, 
+                      borderColor: '#afafab', 
+                      borderStyle: 'solid', 
+                      borderRadius: '4px', 
+                      padding: '8px', 
+                      display: 'inline-flex', 
+                      justifyContent: 'center', 
+                      alignItems: 'center', 
+                      margin: '8px', 
+                      width: '25px', 
+                      height: '25px' 
+                    }}>
+                      <Typography>XXL</Typography>
+                    </Box>             
+                  </Grid>
+                </Grid>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+        </Grid>
+        
+      
+        {/* CSS for fade-in animation */}
+        <style>
+  {`
+    @keyframes fade-in-scale {
+      0% {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes slide-in {
+      0% {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes zoom-in {
+      0% {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  `}
+</style>
     </div>
   );
 }

@@ -1,10 +1,10 @@
 import React from 'react'
 import TextField from '@mui/material/TextField';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import './VerifyOtp.css'
+import './ForgotPassword.css'
 
 
-function ResetPassword() {
+function ForgotPassword() {
     return (
         <div>
             <div className="top">
@@ -12,24 +12,24 @@ function ResetPassword() {
                 <p className='back-text'>Go Back</p>
             </div>
 
-            <div className='verifyotp-container'>
-                <h1>Enter OTP</h1>
-                <p>We have shared a code to your registered email address</p>
+            <div className='changepw-container'>
+                <h1>Forgot Password</h1>
+                <p>Enter your registered email address. we'll send you a code to reset your password</p>
 
-                <div className="verifyotp-box">
+                <div className="changepw-box">
+                    <label htmlFor="email-input">Email Address:</label>
                     <TextField
-                        id="otp-input"
-                        type="text"
+                        id="email-input"
+                        type="email"
                         fullWidth
                         className="custom-textfield"
-                        inputProps={{ style: { textAlign: 'center' } }} 
                     />
 
                     <button
                         className="custom-button"
                         fullWidth
                     >
-                        Verify
+                        Send OTP
                     </button>
 
                 </div>
@@ -38,4 +38,4 @@ function ResetPassword() {
     )
 }
 
-export default ResetPassword
+export default ForgotPassword

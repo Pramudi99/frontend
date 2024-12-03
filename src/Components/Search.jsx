@@ -1,15 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Card, Checkbox, Grid, Rating, Typography, Slider } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Card, Checkbox, Grid, Rating, Typography, Slider, TextField, Button } from '@mui/material';
 import MenuAppBar from './Navbar';
+import FilterListIcon from '@mui/icons-material/FilterList';
 import { useNavigate } from 'react-router-dom';
-
+import SearchIcon from '@mui/icons-material/Search';
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 export default function Search() {
-  const navigate = useNavigate(); // Hook for navigation
-  const [visibleItems, setVisibleItems] = useState([]); // Items to be displayed
-  const [currentIndex, setCurrentIndex] = useState(0); // Current index for loading
-  const [value, setValue] = useState([20, 37]); 
+  const navigate = useNavigate(); 
+  const [value, setValue] = useState([3000, 8000]); // Initial range values
+  const sizes = ["S", "M", "L", "XL","XXL"];
+  const colors = [
+    { code: "#FF0000" },
+    {  code: "#0000FF" },
+    {  code: "#00FF00" },
+    {  code: "#FFFF00" },
+    {code:"#e29216"},
+    {code:"#d916e2 "},
+    {code:"#a7e216 "},
+    {code:"#16e2df  "},
+  ];
+  
   const [data] = useState([
     {
       id: 1,
@@ -62,7 +73,7 @@ export default function Search() {
     {
       id: 4,
       imageUrl:
-        'https://i.pinimg.com/736x/36/c1/67/36c1670a949b15963dfeb70f6d0df481.jpg',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkFh7oAqTE9kj9nBRyUoQKAFoyNXt3hsoWYg&s',
       name: 'Women Fit and Flare Brown Dress',
       price:'$90',
       size:'LArge',
@@ -119,80 +130,254 @@ export default function Search() {
       rating: 4,
       location:'colombo'
     },  
-    
   ]);
 
-  useEffect(() => {
-    if (currentIndex < data.length) {
-      const timer = setTimeout(() => {
-        setVisibleItems((prev) => [...prev, data[currentIndex]]);
-        setCurrentIndex(currentIndex + 1);
-      }, 500); // Delay of 500ms for each item to appear
-      return () => clearTimeout(timer); // Cleanup timer
-    }
-  }, [currentIndex, data]);
-
   const handleChange = (event, newValue) => {
-    setValue(newValue); // Handle price range slider value change
+    setValue(newValue);
   };
 
   const handleCardClick = (id) => {
-    navigate(`/item/${id}`); // Navigate to the details page with the item's ID
+    navigate(`/item/${id}`);
   };
+ 
 
   return (
     <div>
       <MenuAppBar />
     
-      <Grid container spacing={2}>
+      <Grid container spacing={1}>
         {/* Filter Section */}
         <Grid item xs={4}>
           <Card
             sx={{
               width: '45vh',
-              height: '80%',
+              height: '65%',
               padding: '10px',
               marginTop: '105px',
               marginLeft: '60px',
-              boxShadow: '0 8px 12px rgba(0, 0, 0, 0.3)',
-              position: 'fixed',
+              boxShadow: '0 4px 4px rgba(0, 0, 0, 0.2)',              
+            }}
+          > 
+           < Box sx={{ padding: "13px" }}>
+          <Typography variant="h7" sx={{fontWeight: 'bold',}}>
+            PRICE RANGE
+          </Typography>
+          <br></br><br></br>
+      
+      <Slider
+        getAriaLabel={() => "Price range"}
+        value={value}
+        onChange={handleChange}
+       getAriaValueText={(val) => `${val}`}
+        min={800} // Minimum value
+        max={10000} // Maximum value
+        sx={{
+          color: "black", 
+        }}
+      />      
+    </Box>
+          <Box sx={{ display: "flex", marginTop: "16px" }}>
+            <Box
+              sx={{
+                width: "90px",
+                height: "40px",
+                padding:'5px',                
+                textAlign: "center",
+                lineHeight: "30px",                
+                borderRadius: "4px",
+                marginLeft:'20px',
+                border: "2px solid #b2babb",
+              }}
+            >
+              Rs. {value[0]}
+            </Box>
+            <Typography sx={{ marginLeft: "40px",marginTop:'10px'}}>to</Typography>
+            <Box
+              sx={{
+                width: "90px",
+                height:"40px",
+                padding:'5px', 
+                marginLeft:'50px',
+                textAlign: "center",
+                lineHeight: "30px",
+                borderRadius: "4px",
+                border: "2px solid #b2babb",
+              }}
+            >
+             Rs.  {value[1]}
+            </Box>
+          </Box>
+          <br></br>
+          <Button
+            sx={{
+              backgroundColor: 'black',
+              color: 'white',
+              padding: '10px',              
+              width: '300px',
+              fontSize: '15px',
+              fontWeight:'bold',
+              marginLeft:'20px',
+              border: '1px solid black',
+              transition: 'all 0.3s ease-in-out',
+              '&:hover': {
+                backgroundColor: 'white',
+                color: 'black',
+                transform: 'scale(1.05)',
+                boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3)',
+                borderColor: 'black',
+              },
             }}
           >
-            <Typography sx={{ fontWeight: 'bold', fontSize: '18px' , marginTop: '20px',}}>Price Range</Typography><br></br>
-            <Box sx={{ width: 300 }}>
-              <Slider
-                getAriaLabel={() => 'Price range'}
-                value={value}
-                onChange={handleChange}
-                valueLabelDisplay="auto"
-                getAriaValueText={(value) => `${value}°C`}
-              />
-            </Box><br></br>
-            <Typography sx={{ fontWeight: 'bold', fontSize: '18px' }}>Category</Typography><br></br>
-            <Checkbox {...label} /> All
-            <br />
-            <Checkbox {...label} /> Price
-            <br />
-            <Checkbox {...label} /> Type
-            <br />
-            <Checkbox {...label} /> Size
-            <br />
-            <Checkbox {...label} /> Location
-            <br />
-            <Checkbox {...label} /> User Ratings
-            <br />           
+           APPLY
+          </Button>
+        <br></br><br></br>
+        <Box sx={{ padding: "16px" }}>
+      <Typography variant="h7" sx={{fontWeight: 'bold',}}>
+        CATEGORIES
+      </Typography>  
+      <hr style={{ margin: "8px 0" }} />
+      <br></br>  
+            <Checkbox {...label} /> All           
+      </Box>
+           <Box sx={{ padding: "16px" }}>
+            <Typography   variant="h7" sx={{ fontWeight: 'bold',}}>TYPE</Typography>
+            <hr style={{ margin: "8px 0" }} />
+            <Checkbox {...label} /> Frocks<br></br>
+            <Checkbox {...label} />Trousers<br></br>
+            <Checkbox {...label} />Blouse<br></br>
+            <Checkbox {...label} />Sarees<br></br>
+            <Checkbox {...label} /> shirts<br></br>
+            <Checkbox {...label} />Skirts<br></br>
+            <Checkbox {...label} />Baby clothes<br></br>
+            
+            </Box>
+            
+            <Box sx={{ padding: "16px" }}>
+      <Typography variant="h7" sx={{fontWeight: 'bold',}}>SIZE</Typography>
+      <hr style={{ margin: "8px 0" }} />
+      <Grid container spacing={2}>
+        {sizes.map((size, index) => (
+          <Grid item xs={6} sm={3} key={index}>
+            <Box
+              sx={{
+                border: "1px solid #ccc",
+                width: '25px',height: '25px',
+                borderRadius: "4px",
+                textAlign: "center",
+                borderColor: '#afafab',
+                padding: "10px",
+                cursor: "pointer",
+                '&:hover': { backgroundColor: "#f0f0f0" }
+              }}
+            >
+              {size}
+            </Box>
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
+         
+            <Box sx={{ padding: "16px" }}>
+      <Typography variant="h7" sx={{fontWeight: 'bold',}}>
+        COLORS
+      </Typography>
+      <hr style={{ margin: "8px 0" }} />
+      <Grid container spacing={2}>
+        {colors.map((color, index) => (
+          <Grid item xs={3} sm={2} key={index}>
+            <Box
+              sx={{
+                width: "40px",
+                height: "40px",
+                backgroundColor: color.code,
+                borderRadius: "50%",                
+                margin: "0 auto",
+                cursor: "pointer",
+                '&:hover': { transform: "scale(1.1)" }
+              }}              
+            />
+
+           </Grid>
+        ))}
+        
+      </Grid>
+    </Box>
+    <Box sx={{ padding: "16px" }}>
+      <Typography variant="h7" sx={{fontWeight: 'bold',}}>
+        LOCATION
+      </Typography>
+      <hr style={{ margin: "8px 0" }} />
+      <Checkbox {...label} /> Frocks<br></br>
+            <Checkbox {...label} />Colombo<br></br>
+            <Checkbox {...label} />Kandy<br></br>
+            <Checkbox {...label} />Jaffna<br></br>
+      </Box>           
           </Card>
         </Grid>
        
         {/* Items Section */}
-        <Grid container spacing={2} sx={{ marginTop: '60px' ,marginLeft:'30%'}}>
-      
-          {visibleItems.map((item, index) => (
+        
+          <Grid item xs={8}>
+          
+            <Card
+              sx={{
+                height: '10vh',
+                marginTop: '108px',
+                padding: '8px',                
+                display: 'flex',
+                width: '106%',
+                marginLeft:'13px',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                }}
+            >  
+              <FilterListIcon  sx={{padding:"10px", marginLeft: '1px',}}></FilterListIcon>           
+              <Typography sx={{padding:"10px", marginLeft: '1px',}}>Filter</Typography>
+              <Typography sx={{padding:"10px",marginLeft: '90px',}}>Price:Lower to high</Typography>                
+                              <TextField
+                  label="Search the store"
+                  fullWidth
+                  sx={{
+                    width: "40%",
+                    maxWidth: "700px",
+                    marginLeft: "95px",
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "52px", 
+                      position: "relative",
+                      "& fieldset": {
+                        borderRadius: "2px",
+                        borderWidth: "2px",
+                      },
+                      "&:after": {
+                        content: '""',
+                        position: "absolute",
+                        top: 0,
+                        right: 0,
+                        width: "50px", // Thickness of the colored edge
+                        height: "100%",
+                        backgroundColor: "black", // Right corner color
+                        borderRadius: "0 2px 2px 0", // Smooth corner on the right
+                      },
+                      "&:hover fieldset": {
+                        borderColor: "black",
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "black",
+                      },
+                    },
+                  }}
+                />
+
+                </Card>                                 
+            
+          
+          {data.map((item, index) => (
             <Grid
               item
               xs={12}
               key={item.id}
               sx={{
+                padding: '10px',
                 opacity: 0,
                 animation: `${
                   index % 3 === 0
@@ -200,16 +385,16 @@ export default function Search() {
                     : index % 3 === 1
                     ? 'slide-in'
                     : 'zoom-in'
-                } 2.2s ease-in ${index * 0.3}s forwards`,
+                } 2.0s ease-in ${index * 0.3}s forwards`,
               }}
             >
               <Card
                 onClick={() => handleCardClick(item.id)}
                 sx={{
-                  width: '95%',
-                  height: '23vh',
+                  width: '110%',
+                  height: '27vh',
                   padding: '5px',
-                  marginTop: '40px',
+                  marginTop: '4px',
                   cursor: 'pointer',
                 }}
               >
@@ -231,19 +416,94 @@ export default function Search() {
                     <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
                       {item.name}
                     </Typography>
-                    <Rating value={item.rating} precision={0.5} readOnly sx={{ fontSize: '1rem' }} />
+                    <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '4px' }}>
+                        <Rating
+                          value={item.rating}
+                          readOnly
+                          precision={0.5}
+                          sx={{ fontSize: '1rem' }}
+                        />
+                        <Typography sx={{ marginLeft: '8px', fontSize: '1rem', color: 'gray' }}>
+                          {item.rating}.0
+                        </Typography>
+                      </Box>
                     <Typography sx={{ color: 'gray', marginTop: '5px' }}>{item.description}</Typography>
-                    <Typography sx={{ marginTop: '10px', fontWeight: 'bold' }}>{item.price}</Typography>
+                    <Typography sx={{ marginTop: '10px', fontWeight: 'bold' }}>{item.price}</Typography>                    
+                    <Box sx={{ border: 2, borderColor: '#afafab', borderStyle: 'solid', borderRadius: '4px', padding: '8px',display: 'inline-flex',justifyContent: 'center',
+                    alignItems: 'center',margin: '8px',  width: '25px',height: '25px' }}>
+                      <Typography>S</Typography>
+                    </Box>
+                    <Box sx={{ 
+                      border: 2, 
+                      borderColor: '#afafab', 
+                      borderStyle: 'solid', 
+                      borderRadius: '4px', 
+                      padding: '8px', 
+                      display: 'inline-flex', 
+                      justifyContent: 'center', 
+                      alignItems: 'center', 
+                      margin: '8px', 
+                      width: '25px', 
+                      height: '25px' 
+                    }}>
+                      <Typography>M</Typography>
+                    </Box>
+                    <Box sx={{ 
+                      border: 2, 
+                      borderColor: '#afafab', 
+                      borderStyle: 'solid', 
+                      borderRadius: '4px', 
+                      padding: '8px', 
+                      display: 'inline-flex', 
+                      justifyContent: 'center', 
+                      alignItems: 'center', 
+                      margin: '8px', 
+                      width: '25px', 
+                      height: '25px' 
+                    }}>
+                      <Typography>L</Typography>
+                    </Box>
+                    <Box sx={{ 
+                      border: 2, 
+                      borderColor: '#afafab', 
+                      borderStyle: 'solid', 
+                      borderRadius: '4px', 
+                      padding: '8px', 
+                      display: 'inline-flex', 
+                      justifyContent: 'center', 
+                      alignItems: 'center', 
+                      margin: '8px', 
+                      width: '25px', 
+                      height: '25px' 
+                    }}>
+                      <Typography>XL</Typography>
+                    </Box>
+                    <Box sx={{ 
+                      border: 2, 
+                      borderColor: '#afafab', 
+                      borderStyle: 'solid', 
+                      borderRadius: '4px', 
+                      padding: '8px', 
+                      display: 'inline-flex', 
+                      justifyContent: 'center', 
+                      alignItems: 'center', 
+                      margin: '8px', 
+                      width: '25px', 
+                      height: '25px' 
+                    }}>
+                      <Typography>XXL</Typography>
+                    </Box>             
                   </Grid>
                 </Grid>
               </Card>
             </Grid>
           ))}
         </Grid>
-      </Grid>
-
-      {/* CSS for fade-in animation */}
-      <style>
+        </Grid>
+        
+      
+        {/* CSS for fade-in animation */}
+        <style>
   {`
     @keyframes fade-in-scale {
       0% {

@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Card, Typography, Box, Rating, Grid2, Button,} from '@mui/material';
+import { Card, Typography, Box, Rating, Grid2, Button, TextField,} from '@mui/material';
 import PrimarySearchAppBar from './Navbar';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 const Item = () => {
   const { id } = useParams(); // Retrieve the item ID from the URL
   const [imageLoaded, setImageLoaded] = useState(false); // Track image load status
-
+  const [isReviewFormVisible, setReviewFormVisible] = useState(false);
+  const [reviews, setReviews] = useState([]);
+  const [newReview, setNewReview] = useState({ user: '', comment: '', rating: 0 });
   const itemData = [
     {
       id: 1,
@@ -18,7 +21,31 @@ const Item = () => {
       description:
         'This is the description of Bag item 1. It could be longer or shorternhgggggggggggggggggggvbfddd.',
       rating: 3,
-      location:'colombo'
+      location:'colombo',
+      reviews: [
+        {
+          user: 'Alice',
+          comment: 'Loved this dress! Great fit and quality.',
+          rating: 4,
+        },
+        {
+          user: 'Alice',
+          comment: 'Loved this dress! Great fit and quality.',
+          rating: 4,
+        },
+        
+        {
+          user: 'John',
+          comment: 'Decent product for the price.',
+          rating: 3,
+        },
+         {
+          user: 'Alice',
+          comment: 'Loved this dress! Great fit and quality.',
+          rating: 4,
+        },
+        
+      ],
     },
     {
       id: 2,
@@ -30,7 +57,26 @@ const Item = () => {
       description:
         'This is the description of Bag item 1. It could be longer or shorternhgggggggggggggggggggvbfddd.',
       rating: 3,
-      location:'kandy'
+      location:'kandy',
+      reviews: [
+        {
+          user: 'Alice',
+          comment: 'Loved this dress! Great fit and quality.',
+          rating: 4,
+        },
+        {
+          user: 'Alice',
+          comment: 'Loved this dress! Great fit and quality.',
+          rating: 4,
+        },
+        
+        {
+          user: 'John',
+          comment: 'Decent product for the price.',
+          rating: 3,
+        },
+               
+      ],
     },
     {
       id: 3,
@@ -59,7 +105,7 @@ const Item = () => {
     {
       id: 4,
       imageUrl:
-        'https://i.pinimg.com/736x/36/c1/67/36c1670a949b15963dfeb70f6d0df481.jpg',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkFh7oAqTE9kj9nBRyUoQKAFoyNXt3hsoWYg&s',
       name: 'Women Fit and Flare Brown Dress',
       price:'$90',
       size:'LArge',
@@ -123,7 +169,13 @@ const Item = () => {
   if (!item) {
     return <Typography>Item not found!</Typography>;
   }
-
+  const handleReviewSubmit = () => {
+    if (newReview.user && newReview.comment && newReview.rating > 0) {
+      setReviews([...reviews, newReview]);
+      setNewReview({ user: '', comment: '', rating: 0 }); // Reset form
+      setReviewFormVisible(false); // Hide the form after submission
+    }
+  };
   return (
     <div>
     <PrimarySearchAppBar/>
@@ -137,30 +189,30 @@ const Item = () => {
               marginTop: '20%',
               cursor: 'pointer',
               marginLeft: '80px',
-              overflow: 'hidden', // Prevent image overflow during zoom
+              overflow: 'hidden', 
             }}
           >
             <Box
               component="img"
               src={item.imageUrl}
               alt={item.name}
-              onLoad={() => setImageLoaded(true)} // Mark image as loaded
+              onLoad={() => setImageLoaded(true)} 
               sx={{
                 width: '100%',
                 height: '100%',
                 objectFit: 'cover',
                 borderRadius: '5px',
-                opacity: imageLoaded ? 1 : 0, // Fade-in effect
+                opacity: imageLoaded ? 1 : 0, 
                 transform: imageLoaded ? 'scale(1)' : 'scale(3.0)', // Zoom effect on load
                 transition: 'opacity 0.8s ease, transform 0.8s ease', // Smooth transition for load animation
                 '&:hover': {
-                  transform: 'scale(1.5)', // Zoom in on hover
-                  transition: 'transform 0.5s ease-in-out', // Smooth zoom transition
+                  transform: 'scale(1.5)', 
+                  transition: 'transform 0.5s ease-in-out',
                 },
               }}
             />
-          </Card>
-        </Grid2>
+          </Card>      
+          </Grid2>
         <Grid2
           item
           xs={6}
@@ -169,21 +221,112 @@ const Item = () => {
             marginLeft: '85px',
           }}
         >
-          <Typography variant="h4" sx={{ fontWeight: 'bold' }}>
+          <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
             {item.name}
           </Typography>
           <br />
-          <Typography variant="h6">Price: {item.price}</Typography>
+          <Typography variant="h7">Price: {item.price}</Typography>
           <Typography>Location: {item.location}</Typography>
-          <Rating value={item.rating} readOnly sx={{ fontSize: '2rem' }} />
-          <Typography sx={{ marginTop: '20px' }}>{item.description}</Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '4px' }}>
+          <Rating value={item.rating} readOnly sx={{ fontSize: '1.5rem' }} />
+          <Typography sx={{ marginLeft: '8px', fontSize: '1rem', color: 'gray' }}>( {item.rating}.0 Reviews)</Typography>
+          </Box>
+          <Typography sx={{ marginTop: '15px' }}>{item.description}</Typography>
           <br />
+          <Box sx={{ border: 2, borderColor: '#afafab', borderStyle: 'solid', borderRadius: '4px', padding: '8px',display: 'inline-flex',justifyContent: 'center',
+                    alignItems: 'center',margin: '8px',  width: '25px',height: '25px' }}>
+                      <Typography>S</Typography>
+                    </Box>
+                    <Box sx={{ 
+                      border: 2, 
+                      borderColor: '#afafab', 
+                      borderStyle: 'solid', 
+                      borderRadius: '4px', 
+                      padding: '8px', 
+                      display: 'inline-flex', 
+                      justifyContent: 'center', 
+                      alignItems: 'center', 
+                      margin: '8px', 
+                      width: '25px', 
+                      height: '25px' 
+                    }}>
+                      <Typography>M</Typography>
+                    </Box>
+                    <Box sx={{ 
+                      border: 2, 
+                      borderColor: '#afafab', 
+                      borderStyle: 'solid', 
+                      borderRadius: '4px', 
+                      padding: '8px', 
+                      display: 'inline-flex', 
+                      justifyContent: 'center', 
+                      alignItems: 'center', 
+                      margin: '8px', 
+                      width: '25px', 
+                      height: '25px' 
+                    }}>
+                      <Typography>L</Typography>
+                    </Box>
+                    <Box sx={{ 
+                      border: 2, 
+                      borderColor: '#afafab', 
+                      borderStyle: 'solid', 
+                      borderRadius: '4px', 
+                      padding: '8px', 
+                      display: 'inline-flex', 
+                      justifyContent: 'center', 
+                      alignItems: 'center', 
+                      margin: '8px', 
+                      width: '25px', 
+                      height: '25px' 
+                    }}>
+                      <Typography>XL</Typography>
+                    </Box>
+                    <Box sx={{ 
+                      border: 2, 
+                      borderColor: '#afafab', 
+                      borderStyle: 'solid', 
+                      borderRadius: '4px', 
+                      padding: '8px', 
+                      display: 'inline-flex', 
+                      justifyContent: 'center', 
+                      alignItems: 'center', 
+                      margin: '8px', 
+                      width: '25px', 
+                      height: '25px' 
+                    }}>
+                      <Typography>XXL</Typography>
+                    </Box>    <br></br><br></br>
+          <Button
+            sx={{
+              backgroundColor: 'white',
+              color: 'black',
+              padding: '10px',
+              width: '500px',
+              fontSize: '15px',
+             
+              border: '1px solid black',
+              transition: 'all 0.3s ease-in-out',
+              '&:hover': {
+                backgroundColor: 'black',
+                color: 'white',
+                transform: 'scale(1.05)',
+                boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3)',
+                borderColor: 'black',
+              },
+            }}
+          >
+            <ShoppingCartIcon>   </ShoppingCartIcon>
+            ADD TO CART
+          </Button>
+          <br></br>
+          <br></br>
           <Button
             sx={{
               backgroundColor: 'black',
               color: 'white',
-              padding: '10px',
-              width: '300px',
+              padding: '10px',              
+              width: '500px',
               fontSize: '15px',
               border: '1px solid black',
               transition: 'all 0.3s ease-in-out',
@@ -196,10 +339,122 @@ const Item = () => {
               },
             }}
           >
-            ADD TO CART
+           BUY NOW
           </Button>
         </Grid2>
       </Grid2>
+      <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '4px' }}>
+      <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: '16px' ,padding:'5px',marginLeft:'80px', }}>
+    User Reviews
+  </Typography>
+  
+  </Box>
+  {item.reviews && item.reviews.length > 0 ? (
+  <Box sx={{ width: '40%', maxWidth: '1200px', marginLeft:'80px', display: 'flex', flexWrap: 'wrap', gap: '8px',}}>
+  {item.reviews.map((review, index) => (
+    <Box
+      key={index}
+      sx={{
+        flex: '1 1 calc(33.33% - 8px)',
+        marginBottom: '8px',
+        border: '1px solid #ddd',
+        borderRadius: '8px',
+        padding: '2px', 
+        backgroundColor:'#f4f6f6 ' ,
+        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+      }}
+    >
+      <Typography sx={{ fontWeight: 'bold' }}>{review.user}</Typography>
+      <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '4px' }}>
+    <Rating
+      value={review.rating}
+      readOnly
+      precision={0.5}
+      sx={{ fontSize: '1rem' }}
+    />
+    <Typography sx={{ marginLeft: '8px', fontSize: '1rem', color: 'gray' }}>
+      {review.rating}.0
+    </Typography>
+  </Box>
+      <Typography sx={{ marginTop: '8px', color: 'gray' }}>{review.comment}</Typography>
+    </Box>
+  ))}
+</Box>
+) : (
+  <Typography sx={{marginLeft:'80px',}}>No reviews yet..</Typography>
+)}
+<br></br>
+<Button
+        sx={{ backgroundColor: 'black', color: 'white', marginLeft: '300px' }}
+        onClick={() => setReviewFormVisible(!isReviewFormVisible)}
+      >
+        Add Your Review
+      </Button>
+
+      {isReviewFormVisible && (
+        <Box sx={{ marginTop: '16px' }}>
+          <TextField
+  label="Your Name"
+  value={newReview.user}
+  onChange={(e) => setNewReview({ ...newReview, user: e.target.value })}
+  fullWidth
+  sx={{
+    marginBottom: '8px',
+    width: '70%',
+    marginLeft: '300px',
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: 'black', 
+      },
+      '&:hover fieldset': {
+        borderColor: 'black',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: 'black', 
+      },
+    },
+  }}
+/>
+          <br></br>
+          <TextField
+            label="Your Comment"
+            value={newReview.comment}
+            onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })}
+            fullWidth
+            multiline
+            rows={3}
+            sx={{
+            marginBottom: '8px',
+            width: '70%',
+            marginLeft: '300px',
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': {
+                borderColor: 'black',
+                 // Default border color
+              },
+              '&:hover fieldset': {
+                borderColor: 'black',
+                 // Hover state border color
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: 'black',
+                // Focused state border color
+              },
+            },
+          }}
+          />
+          <br></br>
+          <Rating
+            value={newReview.rating}
+            onChange={(e, newValue) => setNewReview({ ...newReview, rating: newValue })}
+            sx={{ marginBottom: '8px',marginLeft:'300px', }}
+          />
+          <br></br>
+          <Button variant="contained" sx={{marginLeft:'300px',backgroundColor:'white',color:'black',border:'1px solid black'}} onClick={handleReviewSubmit}>
+            Submit
+          </Button>
+        </Box>
+      )}
     </div>
   );
 };

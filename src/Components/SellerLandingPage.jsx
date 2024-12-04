@@ -3,8 +3,8 @@ import { Box, Typography, AppBar,Toolbar,Button,List,ListItem,ListItemText,Drawe
 import CloseIcon from '@mui/icons-material/Close';
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import Sidebar from "./Components/Sidebar";
-import NavigationBar from "./Components/NavigationBar";
+import Sidebar from "../Components/Sidebar";
+import NavigationBar from "../Components/NavigationBar";
 
 
 

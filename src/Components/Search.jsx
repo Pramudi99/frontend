@@ -184,7 +184,7 @@ export default function Search() {
     try {
       console.log(value , selectedTypes , selectedColor , selectedSize);
 
-      const filterResponse = await axios.post("http://localhost:8084/api/v1/filter/filter-product",{price:value ,colour:selectedColor,size:selectedSize})
+      const filterResponse = await axios.post("http://localhost:8084/api/v1/filter/filter-product",{price:value ,colour:selectedColor,size:selectedSize , type:selectedTypes})
       console.log(filterResponse);
 
       setAllProducts(filterResponse.data.productDTO)

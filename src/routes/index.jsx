@@ -6,8 +6,9 @@ import RegisterPage from "../pages/RegisterPage/RegisterPage";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage/ForgotPasswordPage";
 import VerifyOtpPage from '../pages/VerifyOtpPage/VerifyOtpPage'
 import Search from "../Components/Search";
-import Notification from "../Components/NotificationTest/Notification";
-import ReceiveNotification from "../Components/ReceiveNotification/ReceiveNotification";
+
+import SellerLandingPage from "../Components/SellerLandingPage";
+
 
 const GlobalRouter = () => {
     return (
@@ -17,8 +18,7 @@ const GlobalRouter = () => {
             <Route path={PATH_PUBLIC.passwordChange} element={<ForgotPasswordPage/>} />
             <Route path={PATH_PUBLIC.verifyOtp} element={<VerifyOtpPage/>} />
             <Route path={PATH_DASHBOARD.dashboard} element={<Search/>} />
-            <Route path='/notification' element={<Notification/>} />
-            <Route path='/receive' element={<ReceiveNotification/>} />
+            <Route path="/sellerLandingPage" element = {<SellerLandingPage/>} />
         </Routes>
     );
 }

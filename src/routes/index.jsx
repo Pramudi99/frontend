@@ -6,7 +6,9 @@ import RegisterPage from "../pages/RegisterPage/RegisterPage";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage/ForgotPasswordPage";
 import VerifyOtpPage from '../pages/VerifyOtpPage/VerifyOtpPage'
 import Search from "../Components/Search";
+
 import SellerLandingPage from "../Components/SellerLandingPage";
+
 
 const GlobalRouter = () => {
     return (

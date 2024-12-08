@@ -138,6 +138,7 @@ export default function Search() {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    console.log("Slider value updated:", newValue);
   };
 
   const handleCheckboxChange = (event) => {
@@ -223,6 +224,7 @@ export default function Search() {
               <br></br><br></br>
 
               <Slider
+                id="price-range-slider"
                 getAriaLabel={() => "Price range"}
                 value={value}
                 onChange={handleChange}
